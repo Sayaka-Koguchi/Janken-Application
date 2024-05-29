@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>じゃんけんアプリ</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="js/script.js"></script>
+  </head>
+
+  <body>
+    <h1 class="page-title">じゃんけんアプリ</h1>
+
+    <div class="box">
+      <div class="box-item">
+        <span class="box-title">あなたの手：</span>
+        <button id="btn1" class="form-control">グー</button>
+        <button id="btn2" class="form-control">チョキ</button>
+        <button id="btn3" class="form-control">パー</button>
+      </div>
+
+    <div class="reset-btn">
+      <button id="btn4" class="form-reset">リセット</button>
+    </div>  
+
+
+    
+      <div class="box-item">
+        <span class="box-title">コンピューターの手：</span>
+        <p id="cp"></p> 
+        <p id="cp-img"></p>
+      </div>
+    </div>
+
+    <div class="text-center result">
+      結果は・・・・
+      <p id="result"></p>
+    </div>
+
+
+    <script>
+      let UserChoice = "";
+
+      // ボタンの色を変え、ユーザーの結果を変数に入れる
+      $("#btn1").on("click",function(){
+        $("#btn1").css("background", "#ff0000"); UserChoice = "G";
+        console.log("User choice is"+UserChoice);
+    }); 
+    $("#btn2").on("click",function(){
+        $("#btn2").css("background", "#ff0000"); UserChoice = "C";
+        console.log("User choice is"+UserChoice);
+    }); 
+    $("#btn3").on("click",function(){
+        $("#btn3").css("background", "#ff0000"); UserChoice = "P";
+        console.log("User choice is"+UserChoice);
+    }); 
+
+              // 乱数設定(1-3)
+      $("#btn1,#btn2,#btn3").on("click",function(){
+      const r = Math.ceil(Math.random()*3);
+      // alert(r); 
+
+          
+      // if条件分岐
+      // コンピューターの手
+      let view = "" // 変数上書き
+      let cpChoice = "";
+      if(r==1){
+        view = 'グー' ; cpChoice = "G";
+      } else if(r==2){
+        view = 'チョキ'; cpChoice = "C";
+      } else if(r==3){
+        view = 'パー'; cpChoice = "P";
+      }
+
+      console.log("cp chois is"+cpChoice);
+
+      // コンピューターの手の結果表示
+      $("#cp").html(view);
+      if(r == 1) {
+          $('#cp-img').html('<img src="goo.png" alt="" style="width:200px; height:100px;">');  
+        } else if(r == 2) {
+          $('#cp-img').html('<img src="choki.png" alt="" style="width:200px; height:100px;">');
+        } else if(r == 3) {
+          $('#cp-img').html('<img src="pah.png" alt="" style="width:200px; height:100px;">');
+        }
+      
+
+
+            // 勝負の結果
+            let GameResult = ""
+      if((UserChoice=="G" && cpChoice=="C")||
+        (UserChoice=="C" && cpChoice=="P") ||
+        (UserChoice=="P" && cpChoice=="G")) {
+          GameResult = "あなたの勝ち！";
+        } else if(UserChoice == cpChoice) {
+          GameResult = "引き分け！";
+        } else {
+          GameResult = "残念！"
+          console.log(GameResult); //デバック用
+        };
+
+          // 勝負の結果表示
+          $("#result").html(GameResult);
+
+
+
+
+            // クリアボタンを押して他のボタンの色を戻す、結果もリセット
+            $("#btn4").on("click", function(){
+        $(".form-control").css("background","#296ed7"); UserChoice = 0;
+        cpChoice = "";
+        console.log("User choice is reset to"+UserChoice); // デバック用
+        console.log("cp choice is reset to"+cpChoice); // デバック用
+    }) 
+      // クリアボタンを押してコンピュータの手をクリア
+      $("#btn4").on("click", function(){
+        $("#cp").empty(); $("#result").empty();
+        $("#cp-img").empty();
+    }) 
+
+  
+  });
+
+    </script>
+
+    <!-- <script src="js/jquery-3.3.1.min.js"></script> -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
+    <!-- <script src="js/script.js"></script> -->
+  </body>
+</html>
